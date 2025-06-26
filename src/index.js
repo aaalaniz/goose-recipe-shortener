@@ -1,11 +1,10 @@
 const core = require('@actions/core');
 const { generateGooseDeepLink } = require('./goose');
 const { ShortioShortener } = require('./shorteners/shortio');
-const path = require('path');
 
 async function run() {
   try {
-    const recipePath = path.join(process.env.GITHUB_WORKSPACE, core.getInput('recipe_path', { required: true }));
+    const recipePath = `${core.getInput('recipe_path', { required: true })}`;
 
     // Generate the Goose deep link
     const gooseDeepLink = await generateGooseDeepLink(recipePath);
