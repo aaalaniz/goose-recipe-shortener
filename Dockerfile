@@ -1,7 +1,7 @@
 FROM node:20
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /goose-recipe-shortener
 
 # Install goose
 RUN curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false bash
@@ -13,7 +13,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production
 
 # Copy the rest of the application code
-COPY . .
+COPY src ./src
 
 # Set the default command to run the action
-CMD ["node", "src/index.js"] 
+CMD ["node", "/goose-recipe-shortener/src/index.js"] 
