@@ -15,7 +15,7 @@ Generate a Goose deep link from a recipe file and optionally shorten it using Sh
 
 ## Example Usage
 ```yaml
-- uses: your-org/goose-recipe-shortener@v1
+- uses: aaalaniz/goose-recipe-shortener@v1
   with:
     recipe_path: './my-recipe.yaml'
     shortener: 'shortio'
