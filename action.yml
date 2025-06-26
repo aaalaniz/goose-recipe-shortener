@@ -1,0 +1,26 @@
+name: 'Goose Recipe Shortener'
+description: 'Generate a Goose deep link from a recipe file and optionally shorten it.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+inputs:
+  recipe_path:
+    description: 'Path to the Goose recipe file.'
+    required: true
+  shortener:
+    description: 'Shortener to use: shortio'
+    required: false
+  short_url_path:
+    description: 'The path for the shortened URL'
+    required: false
+  shortio_api_key:
+    description: 'Short.io API key.'
+    required: false
+  shortio_domain:
+    description: 'Short.io domain.'
+    required: false
+outputs:
+  goose_deep_link:
+    description: 'The generated Goose deep link.'
+  short_url:
+    description: 'The shortened URL.' 

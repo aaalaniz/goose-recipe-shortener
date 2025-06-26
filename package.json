@@ -1,0 +1,9 @@
+{
+  "name": "goose-recipe-shortener",
+  "version": "0.1.0",
+  "description": "GitHub Action to generate Goose deep links and shorten them.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "node --test"
+  }
+} 

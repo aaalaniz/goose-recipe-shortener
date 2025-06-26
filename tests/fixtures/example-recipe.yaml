@@ -1,0 +1,5 @@
+version: 1.0.0
+title: Hello Goose Recipes 
+description: A simple goose recipe 
+instructions: |
+   You are a simple hello world goose recipe used for testing. When someone selects an activity, simply say hello.
