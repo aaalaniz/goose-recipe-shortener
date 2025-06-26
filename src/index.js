@@ -25,7 +25,6 @@ async function run() {
           break;
         }
         default:
-          // No-op
           throw new Error(`Unknown shortener type ${shortenerType}`)
       }
 
