@@ -4,7 +4,7 @@ const { ShortioShortener } = require('./shorteners/shortio');
 
 async function run() {
   try {
-    const recipePath = core.getInput('recipe_path', { required: true });
+    const recipePath = `${process.env.GITHUB_WORKSPACE}/${core.getInput('recipe_path', { required: true })}`;
 
     // Generate the Goose deep link
     const gooseDeepLink = await generateGooseDeepLink(recipePath);
