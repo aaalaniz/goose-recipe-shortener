@@ -7,7 +7,7 @@ async function generateGooseDeepLink(recipePath) {
   try {
     await execFileAsync('goose', ['recipe', 'validate', recipePath]);
   } catch (err) {
-    throw new Error(`Goose recipe validation failed: ${err.stderr || err.message}`);
+    throw new Error(`Goose recipe validation failed for ${recipePath}: ${err.stderr || err.message}`);
   }
 
   // Generate the deep link
@@ -19,7 +19,7 @@ async function generateGooseDeepLink(recipePath) {
     }
     throw new Error('No goose://recipe deeplink found in output');
   } catch (err) {
-    throw new Error(`Goose recipe deeplink generation failed: ${err.stderr || err.message}`);
+    throw new Error(`Goose recipe deeplink generation failed for ${recipePath}: ${err.stderr || err.message}`);
   }
 }
 
