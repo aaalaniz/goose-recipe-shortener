@@ -17,7 +17,7 @@ Generate a Goose deep link from a recipe file and optionally shorten it using Sh
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@v1
   with:
-    recipe_path: './my-recipe.yaml'
+    recipe_path: 'my-recipe.yaml'
     shortener: 'shortio'
     short_url_path: 'my-short-url'
     shortio_api_key: ${{ secrets.SHORTIO_API_KEY }}
