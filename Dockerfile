@@ -4,7 +4,7 @@ FROM node:20
 WORKDIR /goose-recipe-shortener
 
 # Install goose
-RUN curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false bash
+RUN curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
 
 # Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
