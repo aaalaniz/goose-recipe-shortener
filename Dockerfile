@@ -4,7 +4,7 @@ FROM node:20
 WORKDIR /usr/src/app
 
 # Install goose
-curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false bash
+RUN curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false bash
 
 # Copy package.json and package-lock.json
 COPY package.json package-lock.json ./
