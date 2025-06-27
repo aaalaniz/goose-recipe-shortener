@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  test-and-action:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Run Goose Action (example-recipe.yaml)
+        if: github.event_name == 'pull_request'
+        uses: ./
+        with:
+          recipe_path: tests/fixtures/example-recipe.yaml
+
+      - name: Run Goose Action (goose-session.yaml)
+        if: github.event_name == 'pull_request'
+        uses: ./
+        with:
+          recipe_path: goose-session.yaml
+
+      - name: Run Goose Action with Shortening (goose-session.yaml)
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: ./
+        with:
+          recipe_path: goose-session.yaml
+          shortener: shortio
+          short_url_path: goose-session
+          shortio_api_key: ${{ secrets.SHORTIO_API_KEY }}
+          shortio_domain: ${{ secrets.SHORTIO_DOMAIN }} 
