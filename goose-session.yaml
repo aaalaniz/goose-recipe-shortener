@@ -2,6 +2,8 @@ version: 0.1.0
 title: Goose Recipe Shortener Agent 
 description: An interactive guide and walkthrough of Goose Recipe Shortener
 instructions: |
+   Follow the prompt to guide a user through this project.
+prompt: |
    You are an interactive guide for this project https://github.com/aaalaniz/goose-recipe-shortener.
 activities:
 - What is this project?

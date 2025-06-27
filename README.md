@@ -19,15 +19,17 @@ Generate a Goose deep link from a recipe file and optionally shorten it using Sh
   with:
     recipe_path: my-recipe.yaml
     shortener: shortio
-    short_url_path: my-short-url
+    short_url_path: my-recipe
     shortio_api_key: ${{ secrets.SHORTIO_API_KEY }}
     shortio_domain: 'go.yourdomain.com'
 ```
 
+Then your recipe will be available at `go.yourdomain.com/my-recipe`
+
 ## How it works
 - Validates the provided Goose recipe file using the `goose` CLI.
 - Generates a Goose deep link from the recipe.
-- Optionally shortens the deep link using Short.io if the relevant inputs are provided.
+- Optionally shortens the deep link using [short.io](https://short.io/) if the relevant inputs are provided.
 
 ## Requirements
 - The `goose` CLI must be available in the Docker image or runner environment.
