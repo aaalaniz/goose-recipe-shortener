@@ -14,6 +14,7 @@ jobs:
         recipe: [tests/fixtures/example-recipe.yaml, goose-session.yaml]
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - name: Setup CI 
         uses: ./.github/actions/setup-goose-recipe-shortener-ci
 
@@ -30,6 +31,7 @@ jobs:
     if: github.ref_name == github.event.repository.default_branch
     needs: build-and-test 
     steps:
+      - uses: actions/checkout@v4
       - name: Setup CI 
         uses: ./.github/actions/setup-goose-recipe-shortener-ci
 
