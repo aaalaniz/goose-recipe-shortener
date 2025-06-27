@@ -15,7 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Setup CI 
-        uses: .github/actions/setup-goose-recipe-shortener-ci
+        uses: ./.github/actions/setup-goose-recipe-shortener-ci
 
       - name: Run unit tests
         run: npm test
@@ -31,7 +31,7 @@ jobs:
     needs: build-and-test 
     steps:
       - name: Setup CI 
-        uses: .github/actions/setup-goose-recipe-shortener-ci
+        uses: ./.github/actions/setup-goose-recipe-shortener-ci
 
       - name: Publish Recipe
         uses: ./
