@@ -1,0 +1,37 @@
+name: Goose Recipe Shortener CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-test:
+    strategy:
+      matrix:
+        recipe: [tests/fixtures/example-recipe.yaml, goose-session.yaml]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Goose 
+        run: curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm test
+
+      - name: Test action
+        uses: ./
+        with:
+          recipe_path: ${{ matrix.recipe }}
