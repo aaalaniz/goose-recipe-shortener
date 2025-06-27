@@ -14,19 +14,9 @@ jobs:
         recipe: [tests/fixtures/example-recipe.yaml, goose-session.yaml]
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Install Goose 
-        run: curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
-
-      - name: Install dependencies
-        run: npm ci
+      - uses: actions/checkout@v4
+      - name: Setup CI 
+        uses: ./.github/actions/setup-goose-recipe-shortener-ci
 
       - name: Run unit tests
         run: npm test
@@ -35,3 +25,21 @@ jobs:
         uses: ./
         with:
           recipe_path: ${{ matrix.recipe }}
+
+  publish-recipe:
+    runs-on: ubuntu-latest
+    if: github.ref_name == github.event.repository.default_branch
+    needs: build-and-test 
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup CI 
+        uses: ./.github/actions/setup-goose-recipe-shortener-ci
+
+      - name: Publish Recipe
+        uses: ./
+        with:
+          recipe_path: goose-session.yaml
+          shortener: shortio
+          short_url_path: goose-recipe-shortener 
+          shortio_api_key: ${{ secrets.SHORTIO_API_KEY }}
+          shortio_domain: ${{ secrets.SHORTIO_DOMAIN }}
