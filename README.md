@@ -1,6 +1,6 @@
 # Goose Recipe Shortener GitHub Action
 
-Generate a Goose deep link from a recipe file and optionally shorten it using Short.io.
+Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io).
 
 ## Inputs
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
