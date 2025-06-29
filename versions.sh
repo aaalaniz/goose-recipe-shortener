@@ -1,0 +1,1 @@
+export GOOSE_VERSION="v1.0.29" 
