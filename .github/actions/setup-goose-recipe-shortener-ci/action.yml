@@ -8,15 +8,8 @@ runs:
       with:
         node-version: 20
 
-    - name: Get Goose version
-      id: goose-version
-      run: |
-        source versions.sh
-        echo "version=$GOOSE_VERSION" >> $GITHUB_OUTPUT
-      shell: bash
-
     - name: Install Goose 
-      run: curl -fsSL https://github.com/block/goose/releases/download/${{ steps.goose-version.outputs.version }}/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
+      run: install-goose.sh
       shell: bash
 
     - name: Install dependencies
