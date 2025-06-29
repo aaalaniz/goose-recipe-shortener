@@ -1,39 +1,52 @@
+// Entry point for GitHub Actions. For CircleCI, use circleci-step.js
+require('./github-action');
+
 const core = require('@actions/core');
 const { generateGooseDeepLink } = require('./goose');
 const { ShortioShortener } = require('./shorteners/shortio');
 
-async function run() {
-  try {
-    const recipePath = `${core.getInput('recipe_path', { required: true })}`;
-
-    // Generate the Goose deep link
-    const gooseDeepLink = await generateGooseDeepLink(recipePath);
-    core.setOutput('goose_deep_link', gooseDeepLink);
-
-    // Shorten the URL if a shortener is provided
-    const shortenerType = core.getInput('shortener');
-
-    if (shortenerType && shortenerType !== 'none') {
-      let shortener;
-      const path = core.getInput('short_url_path', {required: true })
-      switch (shortenerType) {
-        case 'shortio': {
-          const shortioApiKey = core.getInput('shortio_api_key', { required: true });
-          const shortioDomain = core.getInput('shortio_domain', { required: true });
-          shortener = new ShortioShortener(shortioApiKey, shortioDomain);
-
-          break;
-        }
-        default:
-          throw new Error(`Unknown shortener type ${shortenerType}`)
-      }
-
-      const shortUrl = await shortener.shorten(gooseDeepLink, path);
-      core.setOutput('short_url', shortUrl);
-    }
-  } catch (error) {
-    core.setFailed(error.message);
+/**
+ * Runs the Goose recipe shortener logic.
+ * @param {Object} params
+ * @param {string} params.recipePath - Path to the Goose recipe file (YAML or JSON).
+ * @param {string} [params.shortener] - Shortener to use. Supported: 'shortio'. Optional.
+ * @param {string} [params.shortUrlPath] - The path for the shortened URL (required if using a shortener).
+ * @param {string} [params.shortioApiKey] - Short.io API key (required if using 'shortio').
+ * @param {string} [params.shortioDomain] - Short.io domain (required if using 'shortio').
+ * @returns {Promise<{gooseDeepLink: string, shortUrl?: string}>}
+ */
+async function runGooseRecipeShortener({
+  recipePath,
+  shortener,
+  shortUrlPath,
+  shortioApiKey,
+  shortioDomain,
+}) {
+  if (!recipePath) {
+    throw new Error('recipePath is required');
   }
+  const gooseDeepLink = await generateGooseDeepLink(recipePath);
+  let shortUrl;
+
+  if (shortener && shortener !== 'none') {
+    let shortenerInstance;
+    if (!shortUrlPath) {
+      throw new Error('shortUrlPath is required when using a shortener');
+    }
+    switch (shortener) {
+      case 'shortio': {
+        if (!shortioApiKey) throw new Error('shortioApiKey is required for shortio');
+        if (!shortioDomain) throw new Error('shortioDomain is required for shortio');
+        shortenerInstance = new ShortioShortener(shortioApiKey, shortioDomain);
+        break;
+      }
+      default:
+        throw new Error(`Unknown shortener type ${shortener}`);
+    }
+    shortUrl = await shortenerInstance.shorten(gooseDeepLink, shortUrlPath);
+  }
+
+  return { gooseDeepLink, ...(shortUrl ? { shortUrl } : {}) };
 }
 
-run(); 
+module.exports = { runGooseRecipeShortener }; 
