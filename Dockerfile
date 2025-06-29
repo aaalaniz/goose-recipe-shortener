@@ -16,7 +16,7 @@ COPY package.json package-lock.json ./
 RUN npm ci --only=production
 
 # Copy the entrypoint script
-COPY entrypoint.sh /entrypoint.sh
+COPY entrypoint.sh ./
 
 # Copy the rest of the application code
 COPY src ./src
