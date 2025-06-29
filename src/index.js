@@ -1,7 +1,3 @@
-// Entry point for GitHub Actions. For CircleCI, use circleci-step.js
-require('./github-action');
-
-const core = require('@actions/core');
 const { generateGooseDeepLink } = require('./goose');
 const { ShortioShortener } = require('./shorteners/shortio');
 
