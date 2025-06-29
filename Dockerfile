@@ -7,7 +7,7 @@ WORKDIR /goose-recipe-shortener
 COPY versions.sh ./
 
 # Install goose 
-RUN source versions.sh && \
+RUN . versions.sh && \
     curl -fsSL https://github.com/block/goose/releases/download/$GOOSE_VERSION/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
 
 # Copy package.json and package-lock.json
