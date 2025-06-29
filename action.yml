@@ -3,6 +3,8 @@ description: 'Generate a Goose deep link from a recipe file and optionally short
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - 'github-action'
 inputs:
   recipe_path:
     description: 'Path to the Goose recipe file.'

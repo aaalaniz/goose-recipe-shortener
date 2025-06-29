@@ -15,8 +15,11 @@ COPY package.json package-lock.json ./
 # Install dependencies
 RUN npm ci --only=production
 
+# Copy the entrypoint script
+COPY entrypoint.sh ./
+
 # Copy the rest of the application code
 COPY src ./src
 
-# Set the default command to run the action
-CMD ["node", "/goose-recipe-shortener/src/index.js"] 
+# Set the entrypoint
+ENTRYPOINT ["/goose-recipe-shortener/entrypoint.sh"] 
