@@ -9,7 +9,7 @@ runs:
         node-version: 20
 
     - name: Install Goose 
-      run: curl -fsSL https://github.com/block/goose/releases/download/v1.0.29/download_cli.sh | CONFIGURE=false GOOSE_BIN_DIR=/usr/local/bin bash
+      run: ./install-goose.sh
       shell: bash
 
     - name: Install dependencies
