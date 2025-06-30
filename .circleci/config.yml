@@ -28,7 +28,8 @@ jobs:
       - checkout
       - run:
           name: Install Goose CLI
-          command: ./install-goose.sh
+          #command: ./install-goose.sh
+          command: curl -fsSL https://github.com/block/goose/releases/download/v1.0.30/download_cli.sh | CONFIGURE=false bash
       - run:
           name: Install dependencies
           command: npm ci --only=production
