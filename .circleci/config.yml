@@ -1,0 +1,51 @@
+version: 2.1
+
+jobs:
+  goose-recipe-shortener:
+    docker:
+      - image: cimg/node:20.0
+    parameters:
+      recipe-path:
+        type: string
+        description: "Path to the Goose recipe file (YAML or JSON)"
+      shortener:
+        type: string
+        default: "none"
+        description: "Shortener to use (shortio)"
+      short-url-path:
+        type: string
+        default: ""
+        description: "The path for the shortened URL"
+      shortio-api-key:
+        type: string
+        default: ""
+        description: "Short.io API key"
+      shortio-domain:
+        type: string
+        default: ""
+        description: "Short.io domain"
+    steps:
+      - checkout
+      - run:
+          name: Install Goose CLI
+          command: ./install-goose.sh
+      - run:
+          name: Install dependencies
+          command: npm ci --only=production
+      - run:
+          name: Run Goose Recipe Shortener
+          command: |
+            export RECIPE_PATH=<< parameters.recipe-path >>
+            export SHORTENER=<< parameters.shortener >>
+            export SHORT_URL_PATH=<< parameters.short-url-path >>
+            export SHORTIO_API_KEY=<< parameters.shortio-api-key >>
+            export SHORTIO_DOMAIN=<< parameters.shortio-domain >>
+            node src/circleci-step.js
+          no_output_timeout: 10m
+
+workflows:
+  version: 2
+  test:
+    jobs:
+      - goose-recipe-shortener:
+          recipe-path: goose-session.yaml
