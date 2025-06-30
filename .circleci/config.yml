@@ -19,11 +19,11 @@ jobs:
       shortio-api-key:
         type: string
         default: ""
-        description: "Short.io API key"
+        description: "short.io API key"
       shortio-domain:
         type: string
         default: ""
-        description: "Short.io domain"
+        description: "short.io domain"
     steps:
       - checkout
       - run:
