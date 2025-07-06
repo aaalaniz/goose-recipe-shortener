@@ -1,19 +1,22 @@
 # Goose Recipe Shortener GitHub Action
 
-Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io).
+Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or [Bitly](https://bitly.com).
 
 ## Inputs
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
-- `shortener`: Shortener to use. Supported: `shortio`. Optional.
+- `shortener`: Shortener to use. Supported: `shortio`, `bitly`. Optional.
 - `short_url_path`: The path for the shortened URL (required if using a shortener).
 - `shortio_api_key`: Short.io API key (required if using `shortio`).
 - `shortio_domain`: Short.io domain (required if using `shortio`).
+- `bitly_api_key`: Bitly API key (required if using `bitly`).
+- `bitly_domain`: Bitly domain (required if using `bitly`, this must be a custom branded domain).
 
 ## Outputs
 - `goose_deep_link`: The generated Goose deep link.
 - `short_url`: The shortened URL (if a shortener is used).
 
 ## Example Usage
+### Short.io
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
   with:
@@ -24,12 +27,25 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
     shortio_domain: 'go.yourdomain.com'
 ```
 
-Then your recipe will be available at `go.yourdomain.com/my-recipe`
+Then your recipe will be available at `go.yourdomain.com/my-recipe`.
+
+### Bitly
+```yaml
+- uses: aaalaniz/goose-recipe-shortener@main
+  with:
+    recipe_path: my-recipe.yaml
+    shortener: bitly
+    short_url_path: my-recipe
+    bitly_api_key: ${{ secrets.BITLY_API_KEY }}
+    bitly_domain: links.yourdomain.com
+```
+
+Then your recipe will be available at `links.yourdomain.com/my-recipe`.
 
 ## How it works
 - Validates the provided Goose recipe file using the `goose` CLI.
 - Generates a Goose deep link from the recipe.
-- Optionally shortens the deep link using [short.io](https://short.io/) if the relevant inputs are provided.
+- Optionally shortens the deep link using [short.io](https://short.io/) or [Bitly](https://bitly.com/).
 
 ## Requirements
 - The `goose` CLI must be available in the Docker image or runner environment.

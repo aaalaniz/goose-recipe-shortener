@@ -10,16 +10,22 @@ inputs:
     description: 'Path to the Goose recipe file.'
     required: true
   shortener:
-    description: 'Shortener to use: shortio'
+    description: 'Shortener to use: shortio, bitly'
     required: false
   short_url_path:
     description: 'The path for the shortened URL'
     required: false
   shortio_api_key:
-    description: 'Short.io API key.'
+    description: 'short.io API key.'
     required: false
   shortio_domain:
-    description: 'Short.io domain.'
+    description: 'short.io domain.'
+    required: false
+  bitly_api_key:
+    description: 'bitly API key.'
+    required: false
+  bitly_domain:
+    description: 'bitly domain.'
     required: false
 outputs:
   goose_deep_link:
