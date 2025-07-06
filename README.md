@@ -30,6 +30,9 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
 Then your recipe will be available at `go.yourdomain.com/my-recipe`.
 
 ### Bitly
+
+> **Warning:** Bitly support is currently untested and may not work as expected.
+
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
   with:
