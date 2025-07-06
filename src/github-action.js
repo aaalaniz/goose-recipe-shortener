@@ -10,6 +10,7 @@ async function main() {
     const shortioDomain = core.getInput('shortio_domain');
     const bitlyApiKey = core.getInput('bitly_api_key');
     const bitlyDomain = core.getInput('bitly_domain');
+    const customShortenerPath = core.getInput('custom_shortener_path');
 
     const result = await runGooseRecipeShortener({
       recipePath,
@@ -19,6 +20,7 @@ async function main() {
       shortioDomain,
       bitlyApiKey,
       bitlyDomain,
+      customShortenerPath,
     });
 
     core.setOutput('goose_deep_link', result.gooseDeepLink);
