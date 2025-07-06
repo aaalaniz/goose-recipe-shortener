@@ -1,15 +1,16 @@
 # Goose Recipe Shortener GitHub Action
 
-Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or [Bitly](https://bitly.com).
+Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io), [Bitly](https://bitly.com), or a custom shortener.
 
 ## Inputs
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
-- `shortener`: Shortener to use. Supported: `shortio`, `bitly`. Optional.
+- `shortener`: Shortener to use. Supported: `shortio`, `bitly`, `custom`. Optional.
 - `short_url_path`: The path for the shortened URL (required if using a shortener).
 - `shortio_api_key`: Short.io API key (required if using `shortio`).
 - `shortio_domain`: Short.io domain (required if using `shortio`).
 - `bitly_api_key`: Bitly API key (required if using `bitly`).
 - `bitly_domain`: Bitly domain (required if using `bitly`, this must be a custom branded domain).
+- `custom_shortener_path`: Path to custom JavaScript shortener file (required if using `custom`).
 
 ## Outputs
 - `goose_deep_link`: The generated Goose deep link.
@@ -46,10 +47,64 @@ Then your recipe will be available at `go.yourdomain.com/my-recipe`.
 
 Then your recipe will be available at `links.yourdomain.com/my-recipe`.
 
+### Custom Shortener
+
+You can create your own custom URL shortener by providing a JavaScript file that exports a function. This gives you full control over the shortening logic and allows you to use any URL shortening service.
+
+#### Creating a Custom Shortener
+
+Create a JavaScript file in your repository (e.g., `scripts/my-shortener.js`):
+
+```javascript
+module.exports = async function(longUrl, shortPath, httpClient) {
+  // Your custom shortening logic here
+  // Use httpClient.get(), httpClient.post(), or httpClient.patch() for API calls
+  
+  // Example: Call your custom API
+  const response = await httpClient.post('https://my-api.com/shorten', {
+    url: longUrl,
+    path: shortPath,
+    apiKey: process.env.MY_API_KEY
+  });
+  
+  return response.data.shortUrl;
+};
+```
+
+#### Using the Custom Shortener
+
+```yaml
+- uses: aaalaniz/goose-recipe-shortener@main
+  with:
+    recipe_path: my-recipe.yaml
+    shortener: custom
+    short_url_path: my-recipe
+    custom_shortener_path: ./scripts/my-shortener.js
+```
+
+#### Custom Shortener Function Signature
+
+Your custom shortener function should have this signature:
+
+```javascript
+async function(longUrl, shortPath, httpClient) {
+  // longUrl: The Goose deep link URL to shorten
+  // shortPath: The desired path for the shortened URL
+  // httpClient: An HTTP client instance with get(), post(), and patch() methods
+  
+  // Return the shortened URL as a string
+  return 'https://your-domain.com/shortened-url';
+}
+```
+
+#### Example Custom Shortener
+
+See [`examples/custom-shortener.js`](./examples/custom-shortener.js) for a complete example with multiple implementation patterns.
+
 ## How it works
 - Validates the provided Goose recipe file using the `goose` CLI.
 - Generates a Goose deep link from the recipe.
-- Optionally shortens the deep link using [short.io](https://short.io/) or [Bitly](https://bitly.com/).
+- Optionally shortens the deep link using [short.io](https://short.io/), [Bitly](https://bitly.com/), or a custom shortener.
 
 ## Requirements
 - The `goose` CLI must be available in the Docker image or runner environment.

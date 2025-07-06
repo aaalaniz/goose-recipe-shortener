@@ -26,6 +26,14 @@ jobs:
         with:
           recipe_path: ${{ matrix.recipe }}
 
+      - name: Test Custom Shortener
+        uses: ./
+        with:
+          recipe_path: ${{ matrix.recipe }}
+          shortener: custom
+          short_url_path: test-custom-shortener
+          custom_shortener_path: ./examples/custom-shortener.js
+
   publish-recipe:
     runs-on: ubuntu-latest
     if: github.ref_name == github.event.repository.default_branch
