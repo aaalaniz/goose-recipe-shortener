@@ -29,7 +29,7 @@ class BitlyShortener extends GooseDeepLinkShortener {
         throw new Error(`Bitly API error: ${err.message}`);
       }
     }
-    // 2. If exists, update it
+
     if (exists) {
       const patchBody = { long_url: url };
       const patchResp = await this.httpClient.patch(customBitlinkUrl, patchBody, { headers });
@@ -38,7 +38,7 @@ class BitlyShortener extends GooseDeepLinkShortener {
       }
       throw new Error('Failed to update existing Bitlink');
     }
-    // 3. If not, create it
+
     const postBody = {
       long_url: url,
       domain: this.domain.replace(/^https?:\/\//, ''),
