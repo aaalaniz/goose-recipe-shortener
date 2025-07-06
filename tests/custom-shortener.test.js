@@ -3,6 +3,7 @@ const describe = test.describe;
 const before = test.describe;
 const assert = require('node:assert');
 const path = require('path');
+const fs = require('fs');
 const { CustomShortener } = require('../src/shorteners/custom');
 
 describe('CustomShortener', async () => {
@@ -33,11 +34,8 @@ describe('CustomShortener', async () => {
   });
 
   test('should throw error for invalid return type', async () => {
-    // Create a temporary custom shortener that returns invalid data
     const tempShortenerPath = path.join(__dirname, 'fixtures/invalid-custom-shortener.js');
     
-    // Create the invalid shortener file
-    const fs = require('fs');
     fs.writeFileSync(tempShortenerPath, `
       module.exports = async function(longUrl, shortPath, httpClient) {
         return null; // Invalid return type
@@ -51,16 +49,12 @@ describe('CustomShortener', async () => {
       /Custom shortener must return a valid URL string/
     );
     
-    // Clean up
-    fs.unlinkSync(tempShortenerPath);
+    fs.rmSync(tempShortenerPath);
   });
 
   test('should handle custom shortener errors gracefully', async () => {
-    // Create a temporary custom shortener that throws an error
     const tempShortenerPath = path.join(__dirname, 'fixtures/error-custom-shortener.js');
     
-    // Create the error shortener file
-    const fs = require('fs');
     fs.writeFileSync(tempShortenerPath, `
       module.exports = async function(longUrl, shortPath, httpClient) {
         throw new Error('Custom shortener error');
@@ -74,7 +68,6 @@ describe('CustomShortener', async () => {
       /Custom shortener error: Custom shortener error/
     );
     
-    // Clean up
-    fs.unlinkSync(tempShortenerPath);
+    fs.rmSync(tempShortenerPath);
   });
 }); 
