@@ -31,7 +31,8 @@ Then your recipe will be available at `go.yourdomain.com/my-recipe`.
 
 ### Bitly
 
-> **Warning:** Bitly support is currently untested and may not work as expected.
+> [!WARNING]
+> Bitly support is currently untested and may not work as expected.
 
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
