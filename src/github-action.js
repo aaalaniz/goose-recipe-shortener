@@ -8,8 +8,6 @@ async function main() {
     const shortUrlPath = core.getInput('short_url_path');
     const shortioApiKey = core.getInput('shortio_api_key');
     const shortioDomain = core.getInput('shortio_domain');
-    const bitlyApiKey = core.getInput('bitly_api_key');
-    const bitlyDomain = core.getInput('bitly_domain');
     const customShortenerPath = core.getInput('custom_shortener_path');
 
     const result = await runGooseRecipeShortener({
@@ -18,8 +16,6 @@ async function main() {
       shortUrlPath,
       shortioApiKey,
       shortioDomain,
-      bitlyApiKey,
-      bitlyDomain,
       customShortenerPath,
     });
 

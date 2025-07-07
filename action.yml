@@ -10,7 +10,7 @@ inputs:
     description: 'Path to the Goose recipe file.'
     required: true
   shortener:
-    description: 'Shortener to use: shortio, bitly, custom'
+    description: 'Shortener to use: shortio, custom'
     required: false
   short_url_path:
     description: 'The path for the shortened URL'
@@ -20,12 +20,6 @@ inputs:
     required: false
   shortio_domain:
     description: 'short.io domain.'
-    required: false
-  bitly_api_key:
-    description: 'bitly API key.'
-    required: false
-  bitly_domain:
-    description: 'bitly domain.'
     required: false
   custom_shortener_path:
     description: 'Path to custom JavaScript shortener file (when shortener is "custom")'
