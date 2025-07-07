@@ -1,15 +1,13 @@
 # Goose Recipe Shortener GitHub Action
 
-Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io), [Bitly](https://bitly.com), or a custom shortener.
+Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or a custom shortener.
 
 ## Inputs
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
-- `shortener`: Shortener to use. Supported: `shortio`, `bitly`, `custom`. Optional.
+- `shortener`: Shortener to use. Supported: `shortio`, `custom`. Optional.
 - `short_url_path`: The path for the shortened URL (required if using a shortener).
 - `shortio_api_key`: Short.io API key (required if using `shortio`).
 - `shortio_domain`: Short.io domain (required if using `shortio`).
-- `bitly_api_key`: Bitly API key (required if using `bitly`).
-- `bitly_domain`: Bitly domain (required if using `bitly`, this must be a custom branded domain).
 - `custom_shortener_path`: Path to custom JavaScript shortener file (required if using `custom`).
 
 ## Outputs
@@ -17,7 +15,8 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
 - `short_url`: The shortened URL (if a shortener is used).
 
 ## Example Usage
-### Short.io
+
+### short.io
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
   with:
@@ -29,23 +28,6 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
 ```
 
 Then your recipe will be available at `go.yourdomain.com/my-recipe`.
-
-### Bitly
-
-> [!WARNING]
-> Bitly support is currently untested and may not work as expected.
-
-```yaml
-- uses: aaalaniz/goose-recipe-shortener@main
-  with:
-    recipe_path: my-recipe.yaml
-    shortener: bitly
-    short_url_path: my-recipe
-    bitly_api_key: ${{ secrets.BITLY_API_KEY }}
-    bitly_domain: links.yourdomain.com
-```
-
-Then your recipe will be available at `links.yourdomain.com/my-recipe`.
 
 ### Custom Shortener
 
@@ -104,7 +86,7 @@ See [`examples/custom-shortener.js`](./examples/custom-shortener.js) for a compl
 ## How it works
 - Validates the provided Goose recipe file using the `goose` CLI.
 - Generates a Goose deep link from the recipe.
-- Optionally shortens the deep link using [short.io](https://short.io/), [Bitly](https://bitly.com/), or a custom shortener.
+- Optionally shortens the deep link using [short.io](https://short.io/), or a custom shortener.
 
 ## Requirements
 - The `goose` CLI must be available in the Docker image or runner environment.
