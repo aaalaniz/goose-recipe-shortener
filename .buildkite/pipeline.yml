@@ -1,10 +1,10 @@
 steps:
-  - label: ":goose: Deep Link (example-recipe.yaml)"
+  - label: ":goose: Generate Deep Link"
     plugins:
       - ./.buildkite/goose_recipe_shortener_git:
           recipe_path: tests/fixtures/example-recipe.yaml
 
-  - label: ":goose: Custom Shortener (example-recipe.yaml)"
+  - label: ":goose: Verify Custom Shortener"
     plugins:
       - ./.buildkite/goose_recipe_shortener_git:
           recipe_path: tests/fixtures/example-recipe.yaml
