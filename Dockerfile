@@ -21,11 +21,5 @@ COPY entrypoint.sh ./
 # Copy the rest of the application code
 COPY src ./src
 
-# Copy the hooks directory for Buildkite plugin
-COPY hooks ./hooks
-
-# Make the hook script executable
-RUN chmod +x ./hooks/command
-
 # Set the entrypoint
 ENTRYPOINT ["/goose-recipe-shortener/entrypoint.sh"] 
