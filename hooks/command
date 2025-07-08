@@ -5,17 +5,6 @@ set -euo pipefail
 # Build the Docker image
 docker build --load -t $BUILDKITE_COMMIT -f ./Dockerfile .
 
-# Debug: Print any environment variable that ends with the relevant suffixes
-for var in $(env | cut -d= -f1); do
-  case "$var" in
-    *RECIPE_PATH|*SHORTENER|*SHORT_URL_PATH|*SHORTIO_API_KEY|*SHORTIO_DOMAIN|*CUSTOM_SHORTENER_PATH)
-      echo "[DEBUG] Found env var: $var = ${!var}"
-      ;;
-  esac
-done
-
-echo "[DEBUG] End of environment variable listing."
-
 # Run the shortener with Buildkite plugin environment variables
 docker run --rm \
   -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_RECIPE_PATH \
@@ -25,5 +14,5 @@ docker run --rm \
   -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTIO_DOMAIN \
   -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_CUSTOM_SHORTENER_PATH \
   --workdir /buildkite/workspace \
-  -v "$PWD":"/github/workspace" \
+  -v "$BUILDKITE_BUILD_CHECKOUT_PATH":"/buildkite/workspace" \
   $BUILDKITE_COMMIT buildkite-plugin
