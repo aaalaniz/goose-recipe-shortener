@@ -1,8 +1,6 @@
 # Goose Recipe Shortener
 
-Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or a custom shortener.
-
-This project provides both a **GitHub Action** and a **Buildkite Plugin** for generating Goose deep links from recipe files.
+Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or a custom shortener. Supported environments include: a [Github Action](https://github.com/features/actions) and a [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins).
 
 ## Inputs
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
