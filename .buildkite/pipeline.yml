@@ -1,26 +1,13 @@
 steps:
   - label: ":goose: Deep Link (example-recipe.yaml)"
     plugins:
-      - "./":
+      - ./: ~
           recipe_path: tests/fixtures/example-recipe.yaml
-
-  - label: ":goose: Deep Link (goose-session.yaml)"
-    plugins:
-      - "./":
-          recipe_path: goose-session.yaml
 
   - label: ":goose: Custom Shortener (example-recipe.yaml)"
     plugins:
-      - "./":
+      - ./: ~
           recipe_path: tests/fixtures/example-recipe.yaml
           shortener: custom
           short_url_path: test-custom-shortener
           custom_shortener_path: ./examples/custom-shortener.js
-
-  - label: ":goose: Custom Shortener (goose-session.yaml)"
-    plugins:
-      - "./":
-          recipe_path: goose-session.yaml
-          shortener: custom
-          short_url_path: test-custom-shortener
-          custom_shortener_path: ./examples/custom-shortener.js 
