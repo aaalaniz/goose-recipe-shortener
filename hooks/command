@@ -1,0 +1,18 @@
+#!/bin/bash
+
+set -euo pipefail
+
+# Build the Docker image
+docker build --load -t $BUILDKITE_COMMIT -f ./Dockerfile .
+
+# Run the shortener with Buildkite plugin environment variables
+docker run --rm \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_RECIPE_PATH \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTENER \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORT_URL_PATH \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTIO_API_KEY \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTIO_DOMAIN \
+  -e BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_CUSTOM_SHORTENER_PATH \
+  --workdir /buildkite/workspace \
+  -v "$BUILDKITE_BUILD_CHECKOUT_PATH":"/buildkite/workspace" \
+  $BUILDKITE_COMMIT buildkite-plugin
