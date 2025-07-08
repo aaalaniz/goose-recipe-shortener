@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Buildkite plugin hook script
+# This script is executed when the plugin is used in a pipeline
+
+set -euo pipefail
+
+# Execute the buildkite plugin entrypoint
+exec /goose-recipe-shortener/entrypoint.sh buildkite-plugin 

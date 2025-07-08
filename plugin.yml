@@ -1,0 +1,32 @@
+name: goose-recipe-shortener
+description: Generate a Goose deep link from a recipe file and optionally shorten it using short.io or a custom shortener.
+repository: https://github.com/aaalaniz/goose-recipe-shortener
+
+configuration:
+  properties:
+    recipe_path:
+      type: string
+      description: Path to the Goose recipe file (YAML or JSON).
+    shortener:
+      type: string
+      description: Shortener to use: shortio, custom
+      enum:
+        - shortio
+        - custom
+    short_url_path:
+      type: string
+      description: The path for the shortened URL (required if using a shortener)
+    shortio_api_key:
+      type: string
+      description: short.io API key (required if using shortio)
+    shortio_domain:
+      type: string
+      description: short.io domain (required if using shortio)
+    custom_shortener_path:
+      type: string
+      description: Path to custom JavaScript shortener file (when shortener is "custom")
+  required:
+    - recipe_path
+
+requirements:
+  - docker 
