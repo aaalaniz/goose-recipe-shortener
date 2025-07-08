@@ -3,7 +3,7 @@
 set -euo pipefail
 
 # Build the Docker image
-docker build -t $BUILDKITE_COMMIT -f ./Dockerfile .
+docker build --load -t $BUILDKITE_COMMIT -f ./Dockerfile .
 
 # Run the shortener with Buildkite plugin environment variables
 docker run --rm \
