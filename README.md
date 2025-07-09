@@ -2,9 +2,11 @@
 
 A [Github Action](https://github.com/features/actions) and [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins) that enables [Goose recipe](https://block.github.io/goose/docs/guides/recipes/) maintainers to generate Goose deep links and map them to a short URL provided by a URL shortener­­—in effect, mapping a dynamic `goose://recipe?config=1234` to a fixed linked such as `go.yourdomain/my-recipe`.
 
-## Use Cases
+## Use Case
 
-This tool is intended to help developers manage a shared reciped over time. 
+This tool is intended to help recipe authors manage recipes over time across team or organization boundaries. A Goose recipe deep link is a base64 encoded string of the recipe file and as a result, the recipe deep link will change as you iterate on agents. Tracking recipe files in source control is great way to manage agents over time, but sharing a dynamic Goose deep link may be difficult to manage over time.
+
+TKTK
 
 ## Inputs
 
