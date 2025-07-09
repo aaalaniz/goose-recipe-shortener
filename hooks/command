@@ -2,15 +2,21 @@
 
 set -euo pipefail
 
-# Determine Dockerfile path
-if [[ -n "${BUILDKITE_PLUGINS_PATH:-}" ]] && [[ -d "$BUILDKITE_PLUGINS_PATH/$BUILDKITE_AGENT_NAME/github-com-aaalaniz-goose-recipe-shortener-git-main" ]]; then
-  DOCKERFILE_PATH="$BUILDKITE_PLUGINS_PATH/$BUILDKITE_AGENT_NAME/github-com-aaalaniz-goose-recipe-shortener-git-main/Dockerfile"
-else
-  DOCKERFILE_PATH="./Dockerfile"
+# Determine plugin directory 
+PLUGIN_BASE="$BUILDKITE_PLUGINS_PATH/$BUILDKITE_AGENT_NAME"
+PLUGIN_DIR=""
+if [[ -n "${BUILDKITE_PLUGINS_PATH:-}" ]] && [[ -d "$PLUGIN_BASE" ]]; then
+  # Find the first matching plugin directory (could be main, a branch, or a commit SHA)
+  PLUGIN_DIR=$(find "$PLUGIN_BASE" -maxdepth 1 -type d -name 'github-com-aaalaniz-goose-recipe-shortener-git*' | head -n 1)
+
+  # Change to the plugin directory
+  if [[ -n "$PLUGIN_DIR" ]]; then
+    pushd "$PLUGIN_DIR"
+  fi
 fi
 
 # Build the Docker image
-docker build --load -t $BUILDKITE_COMMIT -f "$DOCKERFILE_PATH" .
+docker build --load -t $BUILDKITE_COMMIT -f "./Dockerfile" .
 
 # Run the shortener with Buildkite plugin environment variables
 docker run --rm \
@@ -23,3 +29,8 @@ docker run --rm \
   --workdir /buildkite/workspace \
   -v "$BUILDKITE_BUILD_CHECKOUT_PATH":"/buildkite/workspace" \
   $BUILDKITE_COMMIT buildkite-plugin
+
+# Restore previous directory if we changed it
+if [[ -n "$PLUGIN_DIR" ]]; then
+  popd
+fi
