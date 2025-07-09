@@ -2,7 +2,6 @@
 
 set -euo pipefail
 
-<<<<<<< HEAD
 # Determine plugin directory 
 PLUGIN_BASE="$BUILDKITE_PLUGINS_PATH/$BUILDKITE_AGENT_NAME"
 PLUGIN_DIR=""
@@ -14,24 +13,6 @@ if [[ -n "${BUILDKITE_PLUGINS_PATH:-}" ]] && [[ -d "$PLUGIN_BASE" ]]; then
   if [[ -n "$PLUGIN_DIR" ]]; then
     pushd "$PLUGIN_DIR"
   fi
-=======
-# Determine Dockerfile path
-PLUGIN_BASE="$BUILDKITE_PLUGINS_PATH/$BUILDKITE_AGENT_NAME"
-PLUGIN_DIR=""
-if [[ -n "${BUILDKITE_PLUGINS_PATH:-}" ]] && [[ -d "$PLUGIN_BASE" ]]; then
-  # Find the first matching plugin directory (could be main, a branch, or a commit SHA)
-  PLUGIN_DIR=$(find "$PLUGIN_BASE" -maxdepth 1 -type d -name 'github-com-aaalaniz-goose-recipe-shortener-git*' | head -n 1)
-
-  # Change to the plugin directory
-  if [[ -n "$PLUGIN_DIR" ]]; then
-    pushd "$PLUGIN_DIR"
-  fi
-<<<<<<< HEAD
-else
-  DOCKERFILE_PATH="./Dockerfile"
->>>>>>> 7d2272d (Update command)
-=======
->>>>>>> d9b686e (Update command)
 fi
 
 # Build the Docker image
