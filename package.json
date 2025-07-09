@@ -4,7 +4,7 @@
   "description": "GitHub Action to generate Goose deep links and shorten them.",
   "main": "src/index.js",
   "scripts": {
-    "test": "node --test tests"
+    "test": "node --test"
   },
   "dependencies": {
     "@actions/core": "1.11.1",
