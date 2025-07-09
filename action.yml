@@ -1,5 +1,7 @@
 name: 'Goose Recipe Shortener'
 description: 'Generate a Goose deep link from a recipe file and optionally shorten it.'
+icon: link-2
+color: black
 runs:
   using: 'docker'
   image: 'Dockerfile'
