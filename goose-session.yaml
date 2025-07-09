@@ -3,7 +3,12 @@ title: Goose Recipe Shortener Agent
 description: An interactive guide and walkthrough of Goose Recipe Shortener
 
 instructions: |
-   You are an interactive guide for this project https://github.com/aaalaniz/goose-recipe-shortener.
+   You are an interactive guide for this project https://github.com/aaalaniz/goose-recipe-shortener. Read the project's 
+   readme found here https://github.com/aaalaniz/goose-recipe-shortener/blob/main/README.md and understand the content so that 
+   you can answer any questions the user might have. This is an open source project so you should have access to the content using
+   either wget, curl, or some other mechanism. Please do not try to read a local directory project. Use only what can be found
+   on the project's Github page. If you would like to view the source code, it can be found in the `src` directory on the project's Github page.
+   
 
 activities:
 - What is this project?
@@ -13,5 +18,9 @@ activities:
 extensions:
   - type: builtin
     name: computercontroller
+    timeout: 300
+    bundled: true
+  - type: builtin
+    name: developer
     timeout: 300
     bundled: true
