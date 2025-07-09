@@ -1,6 +1,6 @@
 # Goose Recipe Shortener
 
-A [GitHub Action](https://GitHub.com/features/actions) and [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins) that enables [Goose recipe](https://block.GitHub.io/goose/docs/guides/recipes/) maintainers to generate Goose deep links and map them to a short URL provided by a URL shortener­­—in effect, mapping a dynamic `goose://recipe?config=1234` to a fixed linked such as `go.yourdomain.com/my-recipe`.
+A [GitHub Action](https://github.com/features/actions) and [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins) that enables [Goose recipe](https://block.github.io/goose/docs/guides/recipes/) maintainers to generate Goose deep links and map them to a short URL provided by a URL shortener­­—in effect, mapping a dynamic `goose://recipe?config=1234` to a fixed linked such as `go.yourdomain.com/my-recipe`.
 
 ## Use Case
 
@@ -50,7 +50,7 @@ Verify that a recipe is valid, perhaps with every pull request.
 steps:
   - label: ":goose: Verify recipe"
     plugins:
-      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
+      - https://github.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: my-recipe.yaml
 
 ```
@@ -78,7 +78,7 @@ Map a recipe's Goose deep link to a short URL using [short.io](https://short.io)
 steps:
   - label: ":goose: Publish Recipe"
     plugins:
-      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
+      - https://github.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: my-recipe.yaml
           shortener: shortio
           short_url_path: my-recipe
@@ -126,7 +126,7 @@ module.exports = async function(longUrl, shortPath, httpClient) {
 ```yaml
   - label: ":goose: Publish Recipe with Custom Shortener"
     plugins:
-      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
+      - https://github.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: my-recipe.yaml
           shortener: custom
           short_url_path: my-recipe
