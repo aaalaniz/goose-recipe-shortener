@@ -1,12 +1,14 @@
 steps:
   - label: ":goose: Generate Deep Link"
+    if: build.branch == "main"
     plugins:
-      - ./.buildkite/goose_recipe_shortener_git:
+      - https://github.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: tests/fixtures/example-recipe.yaml
 
   - label: ":goose: Verify Custom Shortener"
+    if: build.branch == "main"
     plugins:
-      - ./.buildkite/goose_recipe_shortener_git:
+      - https://github.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: tests/fixtures/example-recipe.yaml
           shortener: custom
           short_url_path: test-custom-shortener
