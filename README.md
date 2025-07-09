@@ -135,7 +135,7 @@ module.exports = async function(longUrl, shortPath, httpClient) {
 
 ## Demo
 
-This project publishes [goose-session.yaml](./goose-session.yaml) after every push to the default branch. You can open this interactive walkthrough of the project at [go.aalaniz.com/goose-recipe-shortener](go.aalaniz.com/goose-recipe-shortener)
+This project publishes [goose-session.yaml](./goose-session.yaml) after every push to the default branch. You can open this interactive walkthrough of the project at [go.aalaniz.com/goose-recipe-shortener](https://go.aalaniz.com/goose-recipe-shortener)
 
 ## License
 MIT 
