@@ -1,8 +1,23 @@
 # Goose Recipe Shortener
 
-Generate a Goose deep link from a recipe file and optionally shorten it using [short.io](https://short.io) or a custom shortener. Supported environments include: a [Github Action](https://github.com/features/actions) and a [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins).
+A [GitHub Action](https://GitHub.com/features/actions) and [Buildkite plugin](https://buildkite.com/docs/pipelines/integrations/plugins) that enables [Goose recipe](https://block.GitHub.io/goose/docs/guides/recipes/) maintainers to generate Goose deep links and map them to a short URL provided by a URL shortener­­—in effect, mapping a dynamic `goose://recipe?config=1234` to a fixed linked such as `go.yourdomain.com/my-recipe`.
+
+## Use Case
+
+This tool is intended to help recipe authors manage recipes over time across team or organization boundaries. A Goose recipe deep link is a base64 encoded string of the recipe file and as a result, the recipe deep link will change as you iterate. Tracking recipe files in source control is a great way to manage agents over time, but sharing a dynamic Goose deep link may be difficult.
+
+With this tool, recipe authors can set up the following workflow:
+
+1. Check in Goose recipe files to a repository
+2. Set up a CI task that validates the recipe for every pull request
+3. On either pushes to the default branch or another trigger mechanism, map the Goose deep link to a short url such as go.yourdomain.com/my-recipe
+
+This ensures that maintainers can iterate on recipes without changing a public-facing link.
 
 ## Inputs
+
+These inputs are defined the same way across all CI options.
+
 - `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
 - `shortener`: Shortener to use. Supported: `shortio`, `custom`. Optional.
 - `short_url_path`: The path for the shortened URL (required if using a shortener).
@@ -10,15 +25,43 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
 - `shortio_domain`: Short.io domain (required if using `shortio`).
 - `custom_shortener_path`: Path to custom JavaScript shortener file (required if using `custom`).
 
-## Outputs
+## Outputs (GitHub Action only)
+
 - `goose_deep_link`: The generated Goose deep link.
 - `short_url`: The shortened URL (if a shortener is used).
 
-## GitHub Action Usage
+## Usage
 
-### Example Usage
+### Verify a Recipe 
 
-### short.io
+Verify that a recipe is valid, perhaps with every pull request.
+
+**GitHub Action**
+
+```yaml
+- uses: aaalaniz/goose-recipe-shortener@main
+  with:
+    recipe_path: my-recipe.yaml
+```
+
+**Buildkite Plugin**
+
+```yaml
+steps:
+  - label: ":goose: Verify recipe"
+    plugins:
+      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
+          recipe_path: my-recipe.yaml
+
+```
+
+### Shorten a Recipe with short.io 
+
+Map a recipe's Goose deep link to a short URL using [short.io](https://short.io). This may be useful after pushes to the default branch or after a release.
+
+
+**GitHub Action**
+
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
   with:
@@ -29,13 +72,25 @@ Generate a Goose deep link from a recipe file and optionally shorten it using [s
     shortio_domain: 'go.yourdomain.com'
 ```
 
+**Buildkite Plugin**
+
+```yaml
+steps:
+  - label: ":goose: Publish Recipe"
+    plugins:
+      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
+          recipe_path: my-recipe.yaml
+          shortener: shortio
+          short_url_path: my-recipe
+          shortio_api_key: ${{ secrets.SHORTIO_API_KEY }}
+          shortio_domain: 'go.yourdomain.com'
+```
+
 Then your recipe will be available at `go.yourdomain.com/my-recipe`.
 
 ### Custom Shortener
 
-You can create your own custom URL shortener by providing a JavaScript file that exports a function. This gives you full control over the shortening logic and allows you to use any URL shortening service.
-
-#### Creating a Custom Shortener
+You can create your own custom URL shortener by providing a JavaScript file that exports a function. This gives you full control over the shortening logic and allows you to use perhaps an internal URL shortening service.
 
 Create a JavaScript file in your repository (e.g., `scripts/my-shortener.js`):
 
@@ -55,7 +110,7 @@ module.exports = async function(longUrl, shortPath, httpClient) {
 };
 ```
 
-#### Using the Custom Shortener
+**GitHub Action**
 
 ```yaml
 - uses: aaalaniz/goose-recipe-shortener@main
@@ -66,91 +121,21 @@ module.exports = async function(longUrl, shortPath, httpClient) {
     custom_shortener_path: ./scripts/my-shortener.js
 ```
 
-#### Custom Shortener Function Signature
+**Buildkite Plugin**
 
-Your custom shortener function should have this signature:
-
-```javascript
-async function(longUrl, shortPath, httpClient) {
-  // longUrl: The Goose deep link URL to shorten
-  // shortPath: The desired path for the shortened URL
-  // httpClient: An HTTP client instance with get(), post(), and patch() methods
-  
-  // Return the shortened URL as a string
-  return 'https://your-domain.com/shortened-url';
-}
-```
-
-#### Example Custom Shortener
-
-See [`examples/custom-shortener.js`](./examples/custom-shortener.js) for a complete example with multiple implementation patterns.
-
-## How it works
-- Validates the provided Goose recipe file using the `goose` CLI.
-- Generates a Goose deep link from the recipe.
-- Optionally shortens the deep link using [short.io](https://short.io/), or a custom shortener.
-
-## Buildkite Plugin Usage
-
-The same functionality is available as a Buildkite plugin. The plugin accepts the same parameters as the GitHub Action.
-
-### Example Usage
-
-#### short.io
 ```yaml
-steps:
-  - label: "Generate Goose deep link"
+  - label: ":goose: Publish Recipe with Custom Shortener"
     plugins:
-      - aaalaniz/goose-recipe-shortener#main:
-          recipe_path: my-recipe.yaml
-          shortener: shortio
-          short_url_path: my-recipe
-          shortio_api_key: $SHORTIO_API_KEY
-          shortio_domain: go.yourdomain.com
-```
-
-#### Custom Shortener
-```yaml
-steps:
-  - label: "Generate Goose deep link"
-    plugins:
-      - aaalaniz/goose-recipe-shortener#main:
+      - https://GitHub.com/aaalaniz/goose-recipe-shortener.git#main:
           recipe_path: my-recipe.yaml
           shortener: custom
           short_url_path: my-recipe
           custom_shortener_path: ./scripts/my-shortener.js
 ```
 
-### Plugin Parameters
+## Demo
 
-The Buildkite plugin accepts the same parameters as the GitHub Action:
-
-- `recipe_path` (**required**): Path to the Goose recipe file (YAML or JSON).
-- `shortener`: Shortener to use. Supported: `shortio`, `custom`. Optional.
-- `short_url_path`: The path for the shortened URL (required if using a shortener).
-- `shortio_api_key`: Short.io API key (required if using `shortio`).
-- `shortio_domain`: Short.io domain (required if using `shortio`).
-- `custom_shortener_path`: Path to custom JavaScript shortener file (required if using `custom`).
-
-### Output
-
-The plugin will output the generated URLs in the Buildkite logs and can be used in subsequent pipeline steps.
-
-### Important Note: Environment Variable Naming
-
-Since this repository does not end with `-buildkite-plugin`, Buildkite will prefix all configuration environment variables with `_GIT_`. This means the plugin reads from:
-
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_RECIPE_PATH`
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTENER`
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORT_URL_PATH`
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTIO_API_KEY`
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_SHORTIO_DOMAIN`
-- `BUILDKITE_PLUGIN_GOOSE_RECIPE_SHORTENER_GIT_CUSTOM_SHORTENER_PATH`
-
-This is the standard Buildkite behavior for plugins that don't follow the `-buildkite-plugin` naming convention.
-
-## Requirements
-- The `goose` CLI must be available in the Docker image or runner environment.
+This project publishes [goose-session.yaml](./goose-session.yaml) after every push to the default branch. You can open this interactive walkthrough of the project at [go.aalaniz.com/goose-recipe-shortener](go.aalaniz.com/goose-recipe-shortener)
 
 ## License
 MIT 
