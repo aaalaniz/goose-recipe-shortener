@@ -10,7 +10,7 @@ With this tool, recipe authors can set up the following workflow:
 
 1. Check in Goose recipe files to a repository
 2. Set up a CI task that validates the recipe for every pull request
-3. On either pushes to the default branch or another trigger mechanism, map the Goose deep link to a short url such as go.yourdomain.com/my-recipe
+3. On either pushes to the default branch or another trigger mechanism, map the Goose deep link to a short url such as `go.yourdomain.com/my-recipe`
 
 This ensures that maintainers can iterate on recipes without changing a public-facing link.
 
